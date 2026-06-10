@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgentHub Admin — Log de Errores</title>
+  <script>
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' }</script>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+
+  <!-- SIDEBAR -->
+  <aside class="fixed inset-y-0 left-0 w-64 bg-white dark:bg-slate-900 border-r border-gray-200 dark:border-slate-700/30 flex flex-col z-30">
+    <div class="flex items-center gap-3 px-6 py-5 border-b border-gray-200 dark:border-slate-700/50">
+      <div class="w-9 h-9 rounded-xl bg-indigo-600 flex items-center justify-center flex-shrink-0">
+        <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+      </div>
+      <div>
+        <p class="text-gray-900 dark:text-white font-bold text-lg leading-tight">AgentHub</p>
+        <p class="text-gray-500 dark:text-slate-400 text-xs">Panel de Administración</p>
+      </div>
+    </div>
+    <nav class="flex-1 px-3 py-5 space-y-1 overflow-y-auto">
+      <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800 hover:text-gray-900 dark:hover:text-white transition-colors text-sm"><svg class="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>Dashboard</a>
+      <a href="users.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800 hover:text-gray-900 dark:hover:text-white transition-colors text-sm"><svg class="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>Gestión de Usuarios</a>
+      <a href="agents.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800 hover:text-gray-900 dark:hover:text-white transition-colors text-sm"><svg class="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>Gestión de Agentes</a>
+      <a href="skills.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800 hover:text-gray-900 dark:hover:text-white transition-colors text-sm"><svg class="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>Skills</a>
+      <a href="contracts.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800 hover:text-gray-900 dark:hover:text-white transition-colors text-sm"><svg class="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>Contrataciones</a>
+      <a href="errors.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-indigo-600 text-white font-medium text-sm"><svg class="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>Log de Errores</a>
+    </nav>
+  </aside>
+
+  <!-- TOP BAR -->
+  <header class="fixed top-0 left-64 right-0 h-16 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 flex items-center px-6 gap-4 z-20">
+    <div class="relative w-1/4">
+      <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+      <input type="text" placeholder="Buscar error..." class="w-full pl-10 pr-4 py-2 text-sm rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400 dark:placeholder-gray-500">
+    </div>
+    <div class="flex-1"></div>
+    <button onclick="toggleDarkMode()" class="p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+      <svg class="w-5 h-5 dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+      <svg class="w-5 h-5 hidden dark:block text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+    </button>
+    <div class="relative">
+      <button onclick="toggleDropdown(event,'notif-dd')" class="relative p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+        <span class="absolute -top-0.5 -right-0.5 w-4 h-4 bg-red-500 rounded-full text-white text-xs flex items-center justify-center font-bold">3</span>
+      </button>
+      <div id="notif-dd" class="dropdown-menu hidden absolute right-0 top-full mt-2 w-72 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 z-50 overflow-hidden">
+        <div class="px-4 py-3 border-b border-gray-100 dark:border-gray-700"><h3 class="font-semibold text-sm text-gray-900 dark:text-white">Notificaciones</h3></div>
+        <div class="divide-y divide-gray-100 dark:divide-gray-700">
+          <div class="px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700/50"><p class="text-xs text-gray-500 dark:text-gray-400">Error crítico en DataAnalyzer v2</p></div>
+          <div class="px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700/50"><p class="text-xs text-gray-500 dark:text-gray-400">Nueva contratación de TechCorp registrada</p></div>
+          <div class="px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700/50"><p class="text-xs text-gray-500 dark:text-gray-400">ContentWriter AI marcado como inactivo</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="relative">
+      <button onclick="toggleDropdown(event,'user-dd')" class="flex items-center gap-3 pl-4 border-l border-gray-200 dark:border-gray-700 hover:opacity-80 transition-opacity cursor-pointer">
+        <div class="w-9 h-9 rounded-full bg-indigo-600 flex items-center justify-center text-white text-sm font-bold flex-shrink-0">AC</div>
+        <div class="text-left">
+          <p class="text-sm font-medium text-gray-900 dark:text-white leading-tight">Admin Carlos</p>
+          <p class="text-xs text-gray-500 dark:text-gray-400">Administrador</p>
+        </div>
+        <svg class="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+      </button>
+      <div id="user-dd" class="dropdown-menu hidden absolute right-0 top-full mt-2 w-56 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 z-50 overflow-hidden">
+        <div class="px-4 py-3 border-b border-gray-100 dark:border-gray-700">
+          <p class="text-sm font-semibold text-gray-900 dark:text-white">Admin Carlos</p>
+          <p class="text-xs text-gray-500 dark:text-gray-400">admin@agenthub.io</p>
+        </div>
+        <button onclick="closeAllDropdowns()" class="w-full text-left px-4 py-2.5 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-2 transition-colors">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+          Cerrar sesión
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="ml-64 pt-16 min-h-screen bg-gray-100 dark:bg-gray-900">
+    <div class="p-6 max-w-7xl">
+
+      <div class="mb-8 flex items-center justify-between">
+        <div>
+          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Log de Errores</h1>
+          <p class="text-gray-500 dark:text-gray-400 mt-1">Monitorea y gestiona los errores del sistema en tiempo real.</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 px-3 py-2 rounded-lg">
+            <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+            Monitoreo en vivo
+          </span>
+        </div>
+      </div>
+
+      <!-- Summary badges -->
+      <section aria-label="Resumen de errores" class="flex flex-wrap gap-3 mb-6">
+        <div class="flex items-center gap-2 px-4 py-2.5 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl">
+          <span class="w-2.5 h-2.5 rounded-full bg-red-500"></span>
+          <span class="text-sm font-semibold text-red-700 dark:text-red-300">2 Críticos</span>
+        </div>
+        <div class="flex items-center gap-2 px-4 py-2.5 bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-xl">
+          <span class="w-2.5 h-2.5 rounded-full bg-orange-500"></span>
+          <span class="text-sm font-semibold text-orange-700 dark:text-orange-300">2 Errores</span>
+        </div>
+        <div class="flex items-center gap-2 px-4 py-2.5 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-xl">
+          <span class="w-2.5 h-2.5 rounded-full bg-yellow-500"></span>
+          <span class="text-sm font-semibold text-yellow-700 dark:text-yellow-300">2 Advertencias</span>
+        </div>
+        <div class="ml-auto relative">
+          <button onclick="toggleDropdown(event,'filter-dd')" class="flex items-center gap-2 px-4 py-2.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-sm text-gray-500 dark:text-gray-400 hover:border-indigo-300 dark:hover:border-indigo-600 transition-colors">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
+            <span id="filter-label">Todos los tipos</span>
+            <svg class="w-3.5 h-3.5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div id="filter-dd" class="dropdown-menu hidden absolute right-0 top-full mt-2 w-52 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 z-50 overflow-hidden">
+            <button onclick="filterErrors('todos')" class="w-full text-left px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2 transition-colors">
+              <span class="w-2 h-2 rounded-full bg-gray-400 flex-shrink-0"></span>Todos los tipos
+            </button>
+            <button onclick="filterErrors('critico')" class="w-full text-left px-4 py-2.5 text-sm text-red-700 dark:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-2 transition-colors">
+              <span class="w-2 h-2 rounded-full bg-red-500 flex-shrink-0"></span>CRÍTICO
+            </button>
+            <button onclick="filterErrors('error')" class="w-full text-left px-4 py-2.5 text-sm text-orange-700 dark:text-orange-300 hover:bg-orange-50 dark:hover:bg-orange-900/20 flex items-center gap-2 transition-colors">
+              <span class="w-2 h-2 rounded-full bg-orange-500 flex-shrink-0"></span>ERROR
+            </button>
+            <button onclick="filterErrors('advertencia')" class="w-full text-left px-4 py-2.5 text-sm text-yellow-700 dark:text-yellow-300 hover:bg-yellow-50 dark:hover:bg-yellow-900/20 flex items-center gap-2 transition-colors">
+              <span class="w-2 h-2 rounded-full bg-yellow-500 flex-shrink-0"></span>ADVERTENCIA
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Error list -->
+      <section aria-label="Lista de errores">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead>
+                <tr class="border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700/50">
+                  <th class="text-left px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Timestamp</th>
+                  <th class="text-left px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Agente</th>
+                  <th class="text-left px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Tipo</th>
+                  <th class="text-left px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Descripción</th>
+                  <th class="text-right px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Acciones</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
+
+                <!-- Error 1: CRÍTICO - SalesBot Pro -->
+                <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors" data-severity="critico">
+                  <td class="px-6 py-4">
+                    <p class="text-xs font-mono text-gray-600 dark:text-gray-300">2026-06-10</p>
+                    <p class="text-xs font-mono text-gray-400 dark:text-gray-500">14:23:05</p>
+                  </td>
+                  <td class="px-6 py-4">
+                    <div class="flex items-center gap-2">
+                      <div class="w-7 h-7 rounded-lg bg-indigo-100 dark:bg-indigo-900/40 flex items-center justify-center flex-shrink-0">
+                        <svg class="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                      </div>
+                      <span class="font-medium text-gray-800 dark:text-gray-200 text-xs">SalesBot Pro</span>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4">
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300">
+                      <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>CRÍTICO
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 max-w-xs">
+                    <p class="text-gray-700 dark:text-gray-200 text-xs font-medium">CRM Sync</p>
+                    <p class="text-gray-400 dark:text-gray-500 text-xs mt-0.5 truncate">Timeout en la conexión con el endpoint externo del CRM</p>
+                  </td>
+                  <td class="px-6 py-4 text-right">
+                    <div class="relative inline-block">
+                      <button onclick="toggleDropdown(event,'dd-e1')" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/></svg>
+                      </button>
+                      <div id="dd-e1" class="dropdown-menu hidden absolute right-0 top-full mt-1 w-52 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 z-40 overflow-hidden">
+                        <button onclick="openModal('modal-e1'); closeAllDropdowns()" class="w-full text-left px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2"><svg class="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>Ver detalle</button>
+                        <button onclick="openModal('resolve-e1'); closeAllDropdowns()" class="w-full text-left px-4 py-2.5 text-sm text-green-700 dark:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/20 flex items-center gap-2"><svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Marcar como resuelto</button>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Error 2: ADVERTENCIA - SalesBot Pro -->
+                <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors" data-severity="advertencia">
+                  <td class="px-6 py-4">
+                    <p class="text-xs font-mono text-gray-600 dark:text-gray-300">2026-06-10</p>
+                    <p class="text-xs font-mono text-gray-400 dark:text-gray-500">11:02:17</p>
+                  </td>
+                  <td class="px-6 py-4">
+                    <div class="flex items-center gap-2">
+                      <div class="w-7 h-7 rounded-lg bg-indigo-100 dark:bg-indigo-900/40 flex items-center justify-center flex-shrink-0"><svg class="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></div>
+                      <span class="font-medium text-gray-800 dark:text-gray-200 text-xs">SalesBot Pro</span>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4">
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-yellow-100 dark:bg-yellow-900/40 text-yellow-700 dark:text-yellow-300">
+                      <span class="w-1.5 h-1.5 rounded-full bg-yellow-500"></span>ADVERTENCIA
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 max-w-xs">
+                    <p class="text-gray-700 dark:text-gray-200 text-xs font-medium">Email Drafting</p>
+                    <p class="text-gray-400 dark:text-gray-500 text-xs mt-0.5 truncate">Intentos de reenvío SMTP excedidos (5 reintentos fallidos)</p>
+                  </td>
+                  <td class="px-6 py-4 text-right">
+                    <div class="relative inline-block">
+                      <button onclick="toggleDropdown(event,'dd-e2')" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"><svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/></svg></button>
+                      <div id="dd-e2" class="dropdown-menu hidden absolute right-0 top-full mt-1 w-52 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 z-40 overflow-hidden">
+                        <button onclick="openModal('modal-e2'); closeAllDropdowns()" class="w-full text-left px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2"><svg class="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>Ver detalle</button>
+                        <button onclick="openModal('resolve-e2'); closeAllDropdowns()" class="w-full text-left px-4 py-2.5 text-sm text-green-700 dark:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/20 flex items-center gap-2"><svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Marcar como resuelto</button>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Error 3: ERROR - DataAnalyzer v2 -->
+                <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors" data-severity="error">
+                  <td class="px-6 py-4">
+                    <p class="text-xs font-mono text-gray-600 dark:text-gray-300">2026-06-10</p>
+                    <p class="text-xs font-mono text-gray-400 dark:text-gray-500">09:15:42</p>
+                  </td>
+                  <td class="px-6 py-4">
+                    <div class="flex items-center gap-2">
+                      <div class="w-7 h-7 rounded-lg bg-orange-100 dark:bg-orange-900/40 flex items-center justify-center flex-shrink-0"><svg class="w-3.5 h-3.5 text-orange-600 dark:text-orange-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg></div>
+                      <span class="font-medium text-gray-800 dark:text-gray-200 text-xs">DataAnalyzer v2</span>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4">
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-orange-100 dark:bg-orange-900/40 text-orange-700 dark:text-orange-300">
+                      <span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>ERROR
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 max-w-xs">
+                    <p class="text-gray-700 dark:text-gray-200 text-xs font-medium">Chart Generation</p>
+                    <p class="text-gray-400 dark:text-gray-500 text-xs mt-0.5 truncate">Fallo al parsear respuesta JSON de la API de datos externa</p>
+                  </td>
+                  <td class="px-6 py-4 text-right">
+                    <div class="relative inline-block">
+                      <button onclick="toggleDropdown(event,'dd-e3')" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"><svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/></svg></button>
+                      <div id="dd-e3" class="dropdown-menu hidden absolute right-0 top-full mt-1 w-52 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 z-40 overflow-hidden">
+                        <button onclick="openModal('modal-e3'); closeAllDropdowns()" class="w-full text-left px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2"><svg class="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>Ver detalle</button>
+                        <button onclick="openModal('resolve-e3'); closeAllDropdowns()" class="w-full text-left px-4 py-2.5 text-sm text-green-700 dark:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/20 flex items-center gap-2"><svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Marcar como resuelto</button>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Error 4: CRÍTICO - DataAnalyzer v2 -->
+                <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors" data-severity="critico">
+                  <td class="px-6 py-4">
+                    <p class="text-xs font-mono text-gray-600 dark:text-gray-300">2026-06-09</p>
+                    <p class="text-xs font-mono text-gray-400 dark:text-gray-500">22:50:30</p>
+                  </td>
+                  <td class="px-6 py-4">
+                    <div class="flex items-center gap-2">
+                      <div class="w-7 h-7 rounded-lg bg-orange-100 dark:bg-orange-900/40 flex items-center justify-center flex-shrink-0"><svg class="w-3.5 h-3.5 text-orange-600 dark:text-orange-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg></div>
+                      <span class="font-medium text-gray-800 dark:text-gray-200 text-xs">DataAnalyzer v2</span>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4">
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300">
+                      <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>CRÍTICO
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 max-w-xs">
+                    <p class="text-gray-700 dark:text-gray-200 text-xs font-medium">Data Extraction</p>
+                    <p class="text-gray-400 dark:text-gray-500 text-xs mt-0.5 truncate">Desbordamiento de memoria durante procesamiento masivo de datos</p>
+                  </td>
+                  <td class="px-6 py-4 text-right">
+                    <div class="relative inline-block">
+                      <button onclick="toggleDropdown(event,'dd-e4')" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"><svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/></svg></button>
+                      <div id="dd-e4" class="dropdown-menu hidden absolute right-0 top-full mt-1 w-52 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 z-40 overflow-hidden">
+                        <button onclick="openModal('modal-e4'); closeAllDropdowns()" class="w-full text-left px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2"><svg class="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>Ver detalle</button>
+                        <button onclick="openModal('resolve-e4'); closeAllDropdowns()" class="w-full text-left px-4 py-2.5 text-sm text-green-700 dark:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/20 flex items-center gap-2"><svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Marcar como resuelto</button>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Error 5: ERROR - ContentWriter AI -->
+                <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors" data-severity="error">
+                  <td class="px-6 py-4">
+                    <p class="text-xs font-mono text-gray-600 dark:text-gray-300">2026-06-09</p>
+                    <p class="text-xs font-mono text-gray-400 dark:text-gray-500">16:34:22</p>
+                  </td>
+                  <td class="px-6 py-4">
+                    <div class="flex items-center gap-2">
+                      <div class="w-7 h-7 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center flex-shrink-0"><svg class="w-3.5 h-3.5 text-gray-500 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg></div>
+                      <span class="font-medium text-gray-800 dark:text-gray-200 text-xs">ContentWriter AI</span>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4">
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-orange-100 dark:bg-orange-900/40 text-orange-700 dark:text-orange-300">
+                      <span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>ERROR
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 max-w-xs">
+                    <p class="text-gray-700 dark:text-gray-200 text-xs font-medium">SEO Optimization</p>
+                    <p class="text-gray-400 dark:text-gray-500 text-xs mt-0.5 truncate">Límite de tasa excedido en proveedor externo de análisis SEO</p>
+                  </td>
+                  <td class="px-6 py-4 text-right">
+                    <div class="relative inline-block">
+                      <button onclick="toggleDropdown(event,'dd-e5')" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"><svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/></svg></button>
+                      <div id="dd-e5" class="dropdown-menu hidden absolute right-0 top-full mt-1 w-52 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 z-40 overflow-hidden">
+                        <button onclick="openModal('modal-e5'); closeAllDropdowns()" class="w-full text-left px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2"><svg class="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>Ver detalle</button>
+                        <button onclick="openModal('resolve-e5'); closeAllDropdowns()" class="w-full text-left px-4 py-2.5 text-sm text-green-700 dark:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/20 flex items-center gap-2"><svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Marcar como resuelto</button>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Error 6: ADVERTENCIA - SupportAgent X -->
+                <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors" data-severity="advertencia">
+                  <td class="px-6 py-4">
+                    <p class="text-xs font-mono text-gray-600 dark:text-gray-300">2026-06-09</p>
+                    <p class="text-xs font-mono text-gray-400 dark:text-gray-500">08:07:11</p>
+                  </td>
+                  <td class="px-6 py-4">
+                    <div class="flex items-center gap-2">
+                      <div class="w-7 h-7 rounded-lg bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center flex-shrink-0"><svg class="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg></div>
+                      <span class="font-medium text-gray-800 dark:text-gray-200 text-xs">SupportAgent X</span>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4">
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-yellow-100 dark:bg-yellow-900/40 text-yellow-700 dark:text-yellow-300">
+                      <span class="w-1.5 h-1.5 rounded-full bg-yellow-500"></span>ADVERTENCIA
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 max-w-xs">
+                    <p class="text-gray-700 dark:text-gray-200 text-xs font-medium">Ticket Routing</p>
+                    <p class="text-gray-400 dark:text-gray-500 text-xs mt-0.5 truncate">Latencia alta detectada en clasificación de tickets (>3000ms)</p>
+                  </td>
+                  <td class="px-6 py-4 text-right">
+                    <div class="relative inline-block">
+                      <button onclick="toggleDropdown(event,'dd-e6')" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"><svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/></svg></button>
+                      <div id="dd-e6" class="dropdown-menu hidden absolute right-0 top-full mt-1 w-52 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 z-40 overflow-hidden">
+                        <button onclick="openModal('modal-e6'); closeAllDropdowns()" class="w-full text-left px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2"><svg class="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>Ver detalle</button>
+                        <button onclick="openModal('resolve-e6'); closeAllDropdowns()" class="w-full text-left px-4 py-2.5 text-sm text-green-700 dark:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/20 flex items-center gap-2"><svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Marcar como resuelto</button>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- ERROR DETAIL MODALS -->
+  <div id="modal-e1" class="hidden fixed inset-0 z-50 flex items-center justify-center pt-4 pr-4 pb-4 pl-64">
+    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal('modal-e1')"></div>
+    <div class="relative bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col">
+      <div class="flex items-center justify-between px-6 py-5 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
+        <div class="flex items-center gap-3"><span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300"><span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>CRÍTICO</span><div><p class="font-bold text-gray-900 dark:text-white text-sm">SalesBot Pro — CRM Sync</p><p class="text-xs text-gray-400 dark:text-gray-500">2026-06-10 14:23:05</p></div></div>
+        <button onclick="closeModal('modal-e1')" class="p-1.5 rounded-lg text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"><svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
+      </div>
+      <div class="p-6 flex-1 overflow-y-auto space-y-4">
+        <div class="grid grid-cols-3 gap-3">
+          <div class="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-3"><p class="text-xs text-gray-400 mb-1">Agente ID</p><p class="text-xs font-mono font-semibold text-gray-900 dark:text-white">agt-001</p></div>
+          <div class="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-3"><p class="text-xs text-gray-400 mb-1">Skill</p><p class="text-xs font-semibold text-gray-900 dark:text-white">CRM Sync</p></div>
+          <div class="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-3"><p class="text-xs text-gray-400 mb-1">Código</p><p class="text-xs font-mono font-semibold text-red-600 dark:text-red-400">ERR-5001</p></div>
+        </div>
+        <div>
+          <p class="text-xs font-semibold text-gray-700 dark:text-gray-200 mb-2">Traza completa del error</p>
+          <div class="bg-gray-950 dark:bg-gray-900 rounded-xl p-4 font-mono text-xs text-green-400 leading-relaxed overflow-x-auto border border-gray-800">
+            <p class="text-red-400">CriticalError: Connection timeout after 30000ms</p>
+            <p class="text-gray-500 mt-1">  at CRMSyncSkill.connect (/skills/crm-sync/index.js:142:8)</p>
+            <p class="text-gray-500">  at async AgentRuntime.executeSkill (/runtime/agent.js:89:5)</p>
+            <p class="text-gray-500">  at async TaskRunner.run (/runner/task.js:213:12)</p>
+            <p class="text-gray-400 mt-2">Caused by: AxiosError: timeout of 30000ms exceeded</p>
+            <p class="text-gray-500">  at Axios.request (node_modules/axios/dist/axios.js:1523:11)</p>
+            <p class="text-gray-500">  at processTicksAndRejections (node:internal/process/task_queues:95:5)</p>
+            <p class="text-yellow-400 mt-2">Context:</p>
+            <p class="text-gray-400">  endpoint: https://api.salesforce.com/v2/crm/sync</p>
+            <p class="text-gray-400">  retryCount: 3 / maxRetries: 3</p>
+            <p class="text-gray-400">  lastAttempt: 2026-06-10T14:23:04.982Z</p>
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-end gap-3 px-6 py-4 border-t border-gray-200 dark:border-gray-700 flex-shrink-0">
+        <button onclick="closeModal('modal-e1')" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors">Cerrar</button>
+        <button onclick="closeModal('modal-e1'); openModal('resolve-e1')" class="px-4 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded-lg transition-colors">Marcar como resuelto</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-e2" class="hidden fixed inset-0 z-50 flex items-center justify-center pt-4 pr-4 pb-4 pl-64">
+    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal('modal-e2')"></div>
+    <div class="relative bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col">
+      <div class="flex items-center justify-between px-6 py-5 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
+        <div class="flex items-center gap-3"><span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-yellow-100 dark:bg-yellow-900/40 text-yellow-700 dark:text-yellow-300"><span class="w-1.5 h-1.5 rounded-full bg-yellow-500"></span>ADVERTENCIA</span><div><p class="font-bold text-gray-900 dark:text-white text-sm">SalesBot Pro — Email Drafting</p><p class="text-xs text-gray-400 dark:text-gray-500">2026-06-10 11:02:17</p></div></div>
+        <button onclick="closeModal('modal-e2')" class="p-1.5 rounded-lg text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"><svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
+      </div>
+      <div class="p-6 flex-1 overflow-y-auto space-y-4">
+        <div class="grid grid-cols-3 gap-3"><div class="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-3"><p class="text-xs text-gray-400 mb-1">Agente ID</p><p class="text-xs font-mono font-semibold text-gray-900 dark:text-white">agt-001</p></div><div class="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-3"><p class="text-xs text-gray-400 mb-1">Skill</p><p class="text-xs font-semibold text-gray-900 dark:text-white">Email Drafting</p></div><div class="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-3"><p class="text-xs text-gray-400 mb-1">Código</p><p class="text-xs font-mono font-semibold text-yellow-600 dark:text-yellow-400">WARN-2042</p></div></div>
+        <div><p class="text-xs font-semibold text-gray-700 dark:text-gray-200 mb-2">Traza completa del error</p>
+          <div class="bg-gray-950 dark:bg-gray-900 rounded-xl p-4 font-mono text-xs text-green-400 leading-relaxed overflow-x-auto border border-gray-800">
+            <p class="text-yellow-400">Warning: SMTP max retry attempts exceeded</p>
+            <p class="text-gray-500 mt-1">  at SMTPTransport.send (/skills/email-drafting/smtp.js:88:14)</p>
+            <p class="text-gray-500">  at EmailDraftingSkill.deliver (/skills/email-drafting/index.js:201:9)</p>
+            <p class="text-gray-500">  at async AgentRuntime.executeSkill (/runtime/agent.js:89:5)</p>
+            <p class="text-yellow-400 mt-2">Context:</p>
+            <p class="text-gray-400">  recipient: client@acme.corp</p>
+            <p class="text-gray-400">  retryCount: 5 / maxRetries: 5</p>
+            <p class="text-gray-400">  smtpServer: smtp.relay.techcorp.com:587</p>
+            <p class="text-gray-400">  lastError: ECONNREFUSED 192.168.1.45:587</p>
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-end gap-3 px-6 py-4 border-t border-gray-200 dark:border-gray-700 flex-shrink-0"><button onclick="closeModal('modal-e2')" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors">Cerrar</button><button onclick="closeModal('modal-e2'); openModal('resolve-e2')" class="px-4 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded-lg transition-colors">Marcar como resuelto</button></div>
+    </div>
+  </div>
+
+  <div id="modal-e3" class="hidden fixed inset-0 z-50 flex items-center justify-center pt-4 pr-4 pb-4 pl-64">
+    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal('modal-e3')"></div>
+    <div class="relative bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col">
+      <div class="flex items-center justify-between px-6 py-5 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
+        <div class="flex items-center gap-3"><span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-orange-100 dark:bg-orange-900/40 text-orange-700 dark:text-orange-300"><span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>ERROR</span><div><p class="font-bold text-gray-900 dark:text-white text-sm">DataAnalyzer v2 — Chart Generation</p><p class="text-xs text-gray-400 dark:text-gray-500">2026-06-10 09:15:42</p></div></div>
+        <button onclick="closeModal('modal-e3')" class="p-1.5 rounded-lg text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"><svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
+      </div>
+      <div class="p-6 flex-1 overflow-y-auto space-y-4">
+        <div class="grid grid-cols-3 gap-3"><div class="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-3"><p class="text-xs text-gray-400 mb-1">Agente ID</p><p class="text-xs font-mono font-semibold text-gray-900 dark:text-white">agt-003</p></div><div class="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-3"><p class="text-xs text-gray-400 mb-1">Skill</p><p class="text-xs font-semibold text-gray-900 dark:text-white">Chart Generation</p></div><div class="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-3"><p class="text-xs text-gray-400 mb-1">Código</p><p class="text-xs font-mono font-semibold text-orange-600 dark:text-orange-400">ERR-3018</p></div></div>
+        <div><p class="text-xs font-semibold text-gray-700 dark:text-gray-200 mb-2">Traza completa del error</p>
+          <div class="bg-gray-950 dark:bg-gray-900 rounded-xl p-4 font-mono text-xs text-green-400 leading-relaxed overflow-x-auto border border-gray-800">
+            <p class="text-orange-400">SyntaxError: Unexpected token in JSON at position 1842</p>
+            <p class="text-gray-500 mt-1">  at JSON.parse (&lt;anonymous&gt;)</p>
+            <p class="text-gray-500">  at ChartGenerationSkill.parseResponse (/skills/chart-gen/parser.js:56:18)</p>
+            <p class="text-gray-500">  at ChartGenerationSkill.generate (/skills/chart-gen/index.js:134:22)</p>
+            <p class="text-gray-500">  at async AgentRuntime.executeSkill (/runtime/agent.js:89:5)</p>
+            <p class="text-yellow-400 mt-2">Context:</p>
+            <p class="text-gray-400">  dataSource: https://api.globalai.com/metrics/v3</p>
+            <p class="text-gray-400">  responseSize: 2.4MB</p>
+            <p class="text-gray-400">  httpStatus: 200 (malformed body)</p>
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-end gap-3 px-6 py-4 border-t border-gray-200 dark:border-gray-700 flex-shrink-0"><button onclick="closeModal('modal-e3')" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors">Cerrar</button><button onclick="closeModal('modal-e3'); openModal('resolve-e3')" class="px-4 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded-lg transition-colors">Marcar como resuelto</button></div>
+    </div>
+  </div>
+
+  <div id="modal-e4" class="hidden fixed inset-0 z-50 flex items-center justify-center pt-4 pr-4 pb-4 pl-64">
+    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal('modal-e4')"></div>
+    <div class="relative bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col">
+      <div class="flex items-center justify-between px-6 py-5 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
+        <div class="flex items-center gap-3"><span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300"><span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>CRÍTICO</span><div><p class="font-bold text-gray-900 dark:text-white text-sm">DataAnalyzer v2 — Data Extraction</p><p class="text-xs text-gray-400 dark:text-gray-500">2026-06-09 22:50:30</p></div></div>
+        <button onclick="closeModal('modal-e4')" class="p-1.5 rounded-lg text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"><svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
+      </div>
+      <div class="p-6 flex-1 overflow-y-auto space-y-4">
+        <div class="grid grid-cols-3 gap-3"><div class="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-3"><p class="text-xs text-gray-400 mb-1">Agente ID</p><p class="text-xs font-mono font-semibold text-gray-900 dark:text-white">agt-003</p></div><div class="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-3"><p class="text-xs text-gray-400 mb-1">Skill</p><p class="text-xs font-semibold text-gray-900 dark:text-white">Data Extraction</p></div><div class="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-3"><p class="text-xs text-gray-400 mb-1">Código</p><p class="text-xs font-mono font-semibold text-red-600 dark:text-red-400">ERR-5009</p></div></div>
+        <div><p class="text-xs font-semibold text-gray-700 dark:text-gray-200 mb-2">Traza completa del error</p>
+          <div class="bg-gray-950 dark:bg-gray-900 rounded-xl p-4 font-mono text-xs text-green-400 leading-relaxed overflow-x-auto border border-gray-800">
+            <p class="text-red-400">FatalError: JavaScript heap out of memory</p>
+            <p class="text-gray-500 mt-1">  FATAL ERROR: Reached heap limit Allocation failed</p>
+            <p class="text-gray-500">  at DataExtractionSkill.processBatch (/skills/data-extraction/batch.js:312:9)</p>
+            <p class="text-gray-500">  at DataExtractionSkill.run (/skills/data-extraction/index.js:89:5)</p>
+            <p class="text-gray-500">  at async AgentRuntime.executeSkill (/runtime/agent.js:89:5)</p>
+            <p class="text-yellow-400 mt-2">Context:</p>
+            <p class="text-gray-400">  batchSize: 1,200,000 records</p>
+            <p class="text-gray-400">  heapUsed: 1.9GB / heapLimit: 2.0GB</p>
+            <p class="text-gray-400">  nodeVersion: v20.11.0</p>
+            <p class="text-gray-400">  suggestion: Reduce batch size to &lt;500MB</p>
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-end gap-3 px-6 py-4 border-t border-gray-200 dark:border-gray-700 flex-shrink-0"><button onclick="closeModal('modal-e4')" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors">Cerrar</button><button onclick="closeModal('modal-e4'); openModal('resolve-e4')" class="px-4 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded-lg transition-colors">Marcar como resuelto</button></div>
+    </div>
+  </div>
+
+  <div id="modal-e5" class="hidden fixed inset-0 z-50 flex items-center justify-center pt-4 pr-4 pb-4 pl-64">
+    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal('modal-e5')"></div>
+    <div class="relative bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col">
+      <div class="flex items-center justify-between px-6 py-5 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
+        <div class="flex items-center gap-3"><span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-orange-100 dark:bg-orange-900/40 text-orange-700 dark:text-orange-300"><span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>ERROR</span><div><p class="font-bold text-gray-900 dark:text-white text-sm">ContentWriter AI — SEO Optimization</p><p class="text-xs text-gray-400 dark:text-gray-500">2026-06-09 16:34:22</p></div></div>
+        <button onclick="closeModal('modal-e5')" class="p-1.5 rounded-lg text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"><svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
+      </div>
+      <div class="p-6 flex-1 overflow-y-auto space-y-4">
+        <div class="grid grid-cols-3 gap-3"><div class="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-3"><p class="text-xs text-gray-400 mb-1">Agente ID</p><p class="text-xs font-mono font-semibold text-gray-900 dark:text-white">agt-004</p></div><div class="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-3"><p class="text-xs text-gray-400 mb-1">Skill</p><p class="text-xs font-semibold text-gray-900 dark:text-white">SEO Optimization</p></div><div class="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-3"><p class="text-xs text-gray-400 mb-1">Código</p><p class="text-xs font-mono font-semibold text-orange-600 dark:text-orange-400">ERR-4029</p></div></div>
+        <div><p class="text-xs font-semibold text-gray-700 dark:text-gray-200 mb-2">Traza completa del error</p>
+          <div class="bg-gray-950 dark:bg-gray-900 rounded-xl p-4 font-mono text-xs text-green-400 leading-relaxed overflow-x-auto border border-gray-800">
+            <p class="text-orange-400">RateLimitError: 429 Too Many Requests</p>
+            <p class="text-gray-500 mt-1">  at SEOOptimizationSkill.analyze (/skills/seo-opt/index.js:178:11)</p>
+            <p class="text-gray-500">  at async AgentRuntime.executeSkill (/runtime/agent.js:89:5)</p>
+            <p class="text-yellow-400 mt-2">Context:</p>
+            <p class="text-gray-400">  provider: seoapi.io</p>
+            <p class="text-gray-400">  requestsThisMinute: 61 / limit: 60</p>
+            <p class="text-gray-400">  retryAfter: 2026-06-09T16:35:00.000Z</p>
+            <p class="text-gray-400">  plan: starter (upgrade to pro for higher limits)</p>
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-end gap-3 px-6 py-4 border-t border-gray-200 dark:border-gray-700 flex-shrink-0"><button onclick="closeModal('modal-e5')" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors">Cerrar</button><button onclick="closeModal('modal-e5'); openModal('resolve-e5')" class="px-4 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded-lg transition-colors">Marcar como resuelto</button></div>
+    </div>
+  </div>
+
+  <div id="modal-e6" class="hidden fixed inset-0 z-50 flex items-center justify-center pt-4 pr-4 pb-4 pl-64">
+    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal('modal-e6')"></div>
+    <div class="relative bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col">
+      <div class="flex items-center justify-between px-6 py-5 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
+        <div class="flex items-center gap-3"><span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-yellow-100 dark:bg-yellow-900/40 text-yellow-700 dark:text-yellow-300"><span class="w-1.5 h-1.5 rounded-full bg-yellow-500"></span>ADVERTENCIA</span><div><p class="font-bold text-gray-900 dark:text-white text-sm">SupportAgent X — Ticket Routing</p><p class="text-xs text-gray-400 dark:text-gray-500">2026-06-09 08:07:11</p></div></div>
+        <button onclick="closeModal('modal-e6')" class="p-1.5 rounded-lg text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"><svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
+      </div>
+      <div class="p-6 flex-1 overflow-y-auto space-y-4">
+        <div class="grid grid-cols-3 gap-3"><div class="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-3"><p class="text-xs text-gray-400 mb-1">Agente ID</p><p class="text-xs font-mono font-semibold text-gray-900 dark:text-white">agt-002</p></div><div class="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-3"><p class="text-xs text-gray-400 mb-1">Skill</p><p class="text-xs font-semibold text-gray-900 dark:text-white">Ticket Routing</p></div><div class="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-3"><p class="text-xs text-gray-400 mb-1">Código</p><p class="text-xs font-mono font-semibold text-yellow-600 dark:text-yellow-400">WARN-1007</p></div></div>
+        <div><p class="text-xs font-semibold text-gray-700 dark:text-gray-200 mb-2">Traza completa del error</p>
+          <div class="bg-gray-950 dark:bg-gray-900 rounded-xl p-4 font-mono text-xs text-green-400 leading-relaxed overflow-x-auto border border-gray-800">
+            <p class="text-yellow-400">PerformanceWarning: High latency detected in classification pipeline</p>
+            <p class="text-gray-500 mt-1">  at TicketRoutingSkill.classify (/skills/ticket-routing/classifier.js:94:7)</p>
+            <p class="text-gray-500">  at TicketRoutingSkill.route (/skills/ticket-routing/index.js:67:14)</p>
+            <p class="text-gray-500">  at async AgentRuntime.executeSkill (/runtime/agent.js:89:5)</p>
+            <p class="text-yellow-400 mt-2">Context:</p>
+            <p class="text-gray-400">  avgLatency: 3284ms / threshold: 2000ms</p>
+            <p class="text-gray-400">  ticketsInQueue: 147</p>
+            <p class="text-gray-400">  classifierModel: distilbert-base-uncased-finetuned</p>
+            <p class="text-gray-400">  suggestion: Scale classifier replicas or reduce queue depth</p>
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-end gap-3 px-6 py-4 border-t border-gray-200 dark:border-gray-700 flex-shrink-0"><button onclick="closeModal('modal-e6')" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors">Cerrar</button><button onclick="closeModal('modal-e6'); openModal('resolve-e6')" class="px-4 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded-lg transition-colors">Marcar como resuelto</button></div>
+    </div>
+  </div>
+
+  <!-- RESOLVE CONFIRMATION MODALS -->
+  <div id="resolve-e1" class="hidden fixed inset-0 z-50 flex items-center justify-center pt-4 pr-4 pb-4 pl-64"><div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal('resolve-e1')"></div><div class="relative bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-sm p-6"><div class="flex items-center gap-3 mb-4"><div class="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900/40 flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><div><h3 class="font-bold text-gray-900 dark:text-white">Marcar como resuelto</h3><p class="text-xs text-gray-500 dark:text-gray-400">SalesBot Pro — CRM Sync</p></div></div><p class="text-sm text-gray-600 dark:text-gray-300 mb-6">¿Confirmas que este error ha sido investigado y resuelto? Se registrará la resolución con tu usuario y timestamp.</p><div class="flex gap-3"><button onclick="closeModal('resolve-e1')" class="flex-1 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors">Cancelar</button><button onclick="closeModal('resolve-e1')" class="flex-1 px-4 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded-lg transition-colors">Confirmar</button></div></div></div>
+  <div id="resolve-e2" class="hidden fixed inset-0 z-50 flex items-center justify-center pt-4 pr-4 pb-4 pl-64"><div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal('resolve-e2')"></div><div class="relative bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-sm p-6"><div class="flex items-center gap-3 mb-4"><div class="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900/40 flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><div><h3 class="font-bold text-gray-900 dark:text-white">Marcar como resuelto</h3><p class="text-xs text-gray-500 dark:text-gray-400">SalesBot Pro — Email Drafting</p></div></div><p class="text-sm text-gray-600 dark:text-gray-300 mb-6">¿Confirmas que este error ha sido investigado y resuelto? Se registrará la resolución con tu usuario y timestamp.</p><div class="flex gap-3"><button onclick="closeModal('resolve-e2')" class="flex-1 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors">Cancelar</button><button onclick="closeModal('resolve-e2')" class="flex-1 px-4 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded-lg transition-colors">Confirmar</button></div></div></div>
+  <div id="resolve-e3" class="hidden fixed inset-0 z-50 flex items-center justify-center pt-4 pr-4 pb-4 pl-64"><div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal('resolve-e3')"></div><div class="relative bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-sm p-6"><div class="flex items-center gap-3 mb-4"><div class="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900/40 flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><div><h3 class="font-bold text-gray-900 dark:text-white">Marcar como resuelto</h3><p class="text-xs text-gray-500 dark:text-gray-400">DataAnalyzer v2 — Chart Generation</p></div></div><p class="text-sm text-gray-600 dark:text-gray-300 mb-6">¿Confirmas que este error ha sido investigado y resuelto? Se registrará la resolución con tu usuario y timestamp.</p><div class="flex gap-3"><button onclick="closeModal('resolve-e3')" class="flex-1 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors">Cancelar</button><button onclick="closeModal('resolve-e3')" class="flex-1 px-4 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded-lg transition-colors">Confirmar</button></div></div></div>
+  <div id="resolve-e4" class="hidden fixed inset-0 z-50 flex items-center justify-center pt-4 pr-4 pb-4 pl-64"><div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal('resolve-e4')"></div><div class="relative bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-sm p-6"><div class="flex items-center gap-3 mb-4"><div class="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900/40 flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><div><h3 class="font-bold text-gray-900 dark:text-white">Marcar como resuelto</h3><p class="text-xs text-gray-500 dark:text-gray-400">DataAnalyzer v2 — Data Extraction</p></div></div><p class="text-sm text-gray-600 dark:text-gray-300 mb-6">¿Confirmas que este error ha sido investigado y resuelto? Se registrará la resolución con tu usuario y timestamp.</p><div class="flex gap-3"><button onclick="closeModal('resolve-e4')" class="flex-1 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors">Cancelar</button><button onclick="closeModal('resolve-e4')" class="flex-1 px-4 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded-lg transition-colors">Confirmar</button></div></div></div>
+  <div id="resolve-e5" class="hidden fixed inset-0 z-50 flex items-center justify-center pt-4 pr-4 pb-4 pl-64"><div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal('resolve-e5')"></div><div class="relative bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-sm p-6"><div class="flex items-center gap-3 mb-4"><div class="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900/40 flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><div><h3 class="font-bold text-gray-900 dark:text-white">Marcar como resuelto</h3><p class="text-xs text-gray-500 dark:text-gray-400">ContentWriter AI — SEO Optimization</p></div></div><p class="text-sm text-gray-600 dark:text-gray-300 mb-6">¿Confirmas que este error ha sido investigado y resuelto? Se registrará la resolución con tu usuario y timestamp.</p><div class="flex gap-3"><button onclick="closeModal('resolve-e5')" class="flex-1 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors">Cancelar</button><button onclick="closeModal('resolve-e5')" class="flex-1 px-4 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded-lg transition-colors">Confirmar</button></div></div></div>
+  <div id="resolve-e6" class="hidden fixed inset-0 z-50 flex items-center justify-center pt-4 pr-4 pb-4 pl-64"><div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal('resolve-e6')"></div><div class="relative bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-sm p-6"><div class="flex items-center gap-3 mb-4"><div class="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900/40 flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><div><h3 class="font-bold text-gray-900 dark:text-white">Marcar como resuelto</h3><p class="text-xs text-gray-500 dark:text-gray-400">SupportAgent X — Ticket Routing</p></div></div><p class="text-sm text-gray-600 dark:text-gray-300 mb-6">¿Confirmas que este error ha sido investigado y resuelto? Se registrará la resolución con tu usuario y timestamp.</p><div class="flex gap-3"><button onclick="closeModal('resolve-e6')" class="flex-1 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors">Cancelar</button><button onclick="closeModal('resolve-e6')" class="flex-1 px-4 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded-lg transition-colors">Confirmar</button></div></div></div>
+
+  <script>
+    function toggleDarkMode() {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('darkMode', isDark);
+    }
+    function toggleDropdown(event, id) {
+      event.stopPropagation();
+      const el = document.getElementById(id);
+      const wasHidden = el.classList.contains('hidden');
+      closeAllDropdowns();
+      if (wasHidden) el.classList.remove('hidden');
+    }
+    function closeAllDropdowns() {
+      document.querySelectorAll('.dropdown-menu').forEach(d => d.classList.add('hidden'));
+    }
+    function filterErrors(tipo) {
+      document.querySelectorAll('[data-severity]').forEach(row => {
+        if (tipo === 'todos' || row.dataset.severity === tipo) {
+          row.classList.remove('hidden');
+        } else {
+          row.classList.add('hidden');
+        }
+      });
+      const labels = { todos: 'Todos los tipos', critico: 'CRÍTICO', error: 'ERROR', advertencia: 'ADVERTENCIA' };
+      document.getElementById('filter-label').textContent = labels[tipo];
+      closeAllDropdowns();
+    }
+    function openModal(id) { document.getElementById(id).classList.remove('hidden'); document.body.classList.add('overflow-hidden'); }
+    function closeModal(id) { document.getElementById(id).classList.add('hidden'); document.body.classList.remove('overflow-hidden'); }
+    document.addEventListener('click', closeAllDropdowns);
+  </script>
+</body>
+</html>
