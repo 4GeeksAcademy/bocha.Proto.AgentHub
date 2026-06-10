@@ -2,6 +2,8 @@
 
 Necesitamos generar como entregable un prototipo HTML completamente diseñado del panel de administración de nuestro cliente, la plataforma AgentHub. Para ello se deben considerar las especificaciones y el contexto que se detallan a continuación.
 
+Tener en cuenta que los datos hardcodeados deben ser consistentes entre secciones.
+
 ---
 
 ## 1. Descripción del producto
@@ -27,9 +29,10 @@ El objetivo del panel es ofrecer una interfaz clara, profesional y completamente
 
 El prototipo debe construirse usando únicamente las siguientes tecnologías:
 
-- **HTML** para la estructura.
+- **HTML** para la estructura, utilizando etiquetas semánticas correctamente (section, table, nav, header, main, etc.)
 - **Tailwind CSS vía CDN** para todos los estilos, incluyendo modo oscuro.
 - **JavaScript vanilla** para interacciones (dropdowns, modales, colapsables, toggles).
+- **Layout** debe ser correctamente usable en viewports de escritorio y tablet.
 
 ### Restricciones estrictas
 
@@ -205,3 +208,6 @@ Cada entrada tiene un **dropdown** con:
 - No hay estilos inline ni archivos CSS externos.
 - No se usan frameworks ni herramientas de build.
 - El diseño es consistente, limpio y claramente basado en Tailwind.
+- Los datos hardcodeados son consistentes entre secciones.
+- El HTML usa etiquetas semánticas correctamente.
+- El layout es usable en viewports de escritorio y tablet.
